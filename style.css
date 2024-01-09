@@ -1,0 +1,61 @@
+:root {
+    --font-family: 'MaruBuri', serif;
+    --accent-color: #FFBF00;
+    /* --accent-color-dark: #9FB1B5; */
+    --accent-color-dark: #FFA000;
+    font-family: var(--font-family);
+}
+
+form {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input[type="text"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: .5em;
+    font-family: var(--font-family);
+}
+
+button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: max-content;
+    height: max-content;
+    border: 0;
+    padding: .5em;
+    background-color: var(--accent-color);
+    color: black;
+    transition: .1s;
+    font-family: var(--font-family);
+    font-weight: 100;
+    white-space: nowrap;
+}
+
+@media(hover: hover) and (pointer: fine) {
+    button:hover {
+        background-color: var(--accent-color-dark);
+    }
+}
+
+.container {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 30em;
+}
+
+.start-book {
+    display: flex;
+    gap: .5em;
+}
+
+.start-book__title {
+    width: 100%;
+}

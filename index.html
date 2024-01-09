@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Book Tracker</title>
+        <link href="https://hangeul.pstatic.net/hangeul_static/css/maru-buri.css" rel="stylesheet" />
+        <link rel="stylesheet" href="reset.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <form class="start-book" onsubmit="startBookHandler(event)">
+                <input class="start-book__title" name="start-book-title" type="text" placeholder="Title of book..." />
+                <button>Start Book</button>
+            </form>
+
+            <ul class="book-list">
+            </ul>
+        </div>
+
+        <template id="reading-book-template">
+            <li class="book-list__item">
+                <span class="book-list__item__title">Book title</span>
+                <span class="book-list__item__start-date">2022-01-09 ~</span>
+                <button class="book-list__item__finish-button" onclick="finishBookHandler(event)">Finish Book</button>
+            </li>
+        </template>
+
+        <template id="finished-book-template">
+            <li class="book-list__item">
+                <span class="book-list__item__title">Book title</span>
+                <span class="book-list__item__start-date">2022-01-09 ~</span>
+                <span class="book-list__item__finish-date">2022-01-10</span>
+            </li>
+        </template>
+       <script src="index.js"></script>
+    </body>
+</html>

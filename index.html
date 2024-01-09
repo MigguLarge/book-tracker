@@ -11,7 +11,7 @@
     <body>
         <div class="container">
             <form class="start-book" onsubmit="startBookHandler(event)">
-                <input class="start-book__title" name="start-book-title" type="text" placeholder="Title of book..." />
+                <input class="start-book__title" type="text" placeholder="Title of book..." />
                 <button>Start Book</button>
             </form>
 
@@ -23,6 +23,10 @@
             <li class="book-list__item">
                 <span class="book-list__item__title">Book title</span>
                 <span class="book-list__item__start-date">2022-01-09 ~</span>
+                <form class="book-list__item__add-comment" onsubmit="addCommentHandler(event)">
+                    <input type="text" placeholder="Comment..." />
+                    <button>Add Comment</button>
+                </form>
                 <button class="book-list__item__finish-button" onclick="finishBookHandler(event)">Finish Book</button>
             </li>
         </template>
@@ -30,8 +34,11 @@
         <template id="finished-book-template">
             <li class="book-list__item">
                 <span class="book-list__item__title">Book title</span>
-                <span class="book-list__item__start-date">2022-01-09 ~</span>
-                <span class="book-list__item__finish-date">2022-01-10</span>
+                <span class="book-list__item__date">2022-01-09 ~</span>
+                <form class="book-list__item__add-comment" onsubmit="addCommentHandler(event)">
+                    <input type="text" placeholder="Comment..." />
+                    <button>Add Comment</button>
+                </form>
             </li>
         </template>
        <script src="index.js"></script>

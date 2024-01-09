@@ -5,6 +5,7 @@ class Book {
         this.isReading = isReading;
         this.startDate = new Date;
         this.finishDate = null;
+        this.comments = [];
     }
 }
 
@@ -37,14 +38,90 @@ const getDate = (dateObj) => {
     return year + '-' + month + '-' + date;
 }
 
+const createBookListItem = (book) => {
+    if (book.isReading) {
+        const bookListItem = readingBookTemplate.content.cloneNode(true);
+
+        bookListItem.querySelector('.book-list__item')
+                    .setAttribute('id', `book-${book.id}`)
+        bookListItem.querySelector('.book-list__item__title')
+                    .textContent = book.title;
+        bookListItem.querySelector('.book-list__item__start-date')
+                    .textContent = getDate(new Date(book.startDate)) + ' ~';
+
+        const addCommentForm = bookListItem.querySelector('.book-list__item__add-comment');
+
+        if (book.comments.length > 0) {
+            const commentList = document.createElement('ul');
+            commentList.classList.add('book-list__item__comments');
+            commentList.innerHTML = '<span>Comments:</span>';
+
+            book.comments.forEach((comment) => {
+                const commentItem = document.createElement('li');
+                commentItem.classList.add('book-list__item__comments__comment')
+                commentItem.textContent = comment;
+
+                commentList.appendChild(commentItem);
+            });
+
+            bookListItem.querySelector('.book-list__item').insertBefore(commentList, addCommentForm);
+        };
+
+        return bookListItem;
+    } else {
+        const bookListItem = finishedBookTemplate.content.cloneNode(true);
+        bookListItem.querySelector('.book-list__item')
+                    .setAttribute('id', `book-${book.id}`)
+        bookListItem.querySelector('.book-list__item__title')
+                    .textContent = book.title;
+        bookListItem.querySelector('.book-list__item__date')
+                    .textContent = getDate(new Date(book.startDate)) + ' ~ ' + getDate(new Date(book.finishDate));
+
+        const addCommentForm = bookListItem.querySelector('.book-list__item__add-comment');
+
+        if (book.comments.length > 0) {
+            const commentList = document.createElement('ul');
+            commentList.classList.add('book-list__item__comments');
+            commentList.innerHTML = '<span>Comments:</span>';
+
+            book.comments.forEach((comment) => {
+                const commentItem = document.createElement('li');
+                commentItem.classList.add('book-list__item__comments__comment')
+                commentItem.textContent = comment;
+
+                commentList.appendChild(commentItem);
+            });
+
+            bookListItem.querySelector('.book-list__item').insertBefore(commentList, addCommentForm);
+        };
+
+
+        return bookListItem;
+    }
+}
+
 const createReadingBookListItem = (title, id, startDate) => {
     const bookListItem = readingBookTemplate.content.cloneNode(true);
+
     bookListItem.querySelector('.book-list__item')
                 .setAttribute('id', `book-${id}`)
     bookListItem.querySelector('.book-list__item__title')
         .textContent = title;
     bookListItem.querySelector('.book-list__item__start-date')
         .textContent = getDate(startDate) + ' ~';
+
+    const addCommentForm = bookListItem.querySelector('.book-list__item__add-comment');
+
+    const commentList = document.createElement('ul');
+    commentList.classList.add('book-list__item__comments');
+
+    const commentItem = document.createElement('li');
+    commentItem.classList.add('book-list__item__comments__comment')
+    commentItem.textContent = comment;
+
+    commentList.appendChild(commentItem);
+    bookListItem.insertBefore(commentList, addCommentForm);
+
     return bookListItem;
 }
 
@@ -54,10 +131,8 @@ const createFinishedBookListItem = (title, id, startDate, finishDate) => {
                 .setAttribute('id', `book-${id}`)
     bookListItem.querySelector('.book-list__item__title')
         .textContent = title;
-    bookListItem.querySelector('.book-list__item__start-date')
-        .textContent = getDate(startDate) + ' ~';
-    bookListItem.querySelector('.book-list__item__finish-date')
-        .textContent = getDate(finishDate);
+    bookListItem.querySelector('.book-list__item__date')
+        .textContent = getDate(startDate) + ' ~ ' + getDate(finishDate);
     return bookListItem;
 }
 
@@ -65,9 +140,7 @@ const pageInit = () => {
     if (localStorage.getItem('books') != null) {
         const books = JSON.parse(localStorage.getItem('books'));
         books.forEach((book) => {
-            if (book.isReading)
-                bookList.appendChild(createReadingBookListItem(book.title, book.id, new Date(book.startDate)));
-            else bookList.appendChild(createFinishedBookListItem(book.title, book.id, new Date(book.startDate), new Date(book.finishDate)));
+            bookList.appendChild(createBookListItem(book));
         });
     }
 }
@@ -87,25 +160,60 @@ const startBookHandler = (event) => {
         const books = JSON.stringify([startingBook])
         localStorage.setItem('books', books);
     }
-    bookList.insertBefore(createReadingBookListItem(input.value, startingBook.id, startingBook.startDate), bookList.firstChild);
+    bookList.insertBefore(createBookListItem(startingBook), bookList.firstChild);
     input.value = '';
 }
 
 const finishBookHandler = (event) => {
     const currentListItem = event.target.parentElement;
-    const finishDate = document.createElement('span');
-    finishDate.classList.add('.book-list__item__finish-date')
-    finishDate.textContent = getDate(new Date());
-
-    currentListItem.querySelector('.book-list__item__finish-button').remove();
-    currentListItem.appendChild(finishDate);
 
     const id = currentListItem.getAttribute('id').split('-')[1];
     const books = JSON.parse(localStorage.getItem('books'));
     const currentBook = books.find((book) => book.id == id);
+
+    currentListItem.querySelector('.book-list__item__finish-button').remove();
+    currentListItem.querySelector('.book-list__item__start-date').remove();
+
+    const readDate = document.createElement('span');
+    readDate.classList.add('.book-list__item__date');
+    readDate.textContent = getDate(new Date(currentBook.startDate)) + ' ~ ' + getDate(new Date())
+
+    const commentList = currentListItem.querySelector('.book-list__item__comments')
+
+    currentListItem.insertBefore(readDate, commentList)
+
     currentBook.isReading = false;
     currentBook.finishDate = new Date();
     localStorage.setItem('books', JSON.stringify(books))
+}
+
+const addCommentHandler = (event) => {
+    event.preventDefault();
+    const currentListItem = event.target.parentElement;
+    const commentInput = event.target.querySelector('.book-list__item__add-comment > input')
+
+    const id = currentListItem.getAttribute('id').split('-')[1];
+    const comment = commentInput.value;
+    const books = JSON.parse(localStorage.getItem('books'));
+    const currentBook = books.find((book) => book.id == id);
+    currentBook.comments.push(comment);
+    localStorage.setItem('books', JSON.stringify(books))
+
+    const commentItem = document.createElement('li');
+    commentItem.classList.add('book-list__item__comments__comment')
+    commentItem.textContent = comment;
+
+    if (currentListItem.querySelector('.book-list__item__comments') == null) {
+        const commentList = document.createElement('ul');
+        commentList.classList.add('book-list__item__comments');
+        commentList.innerHTML = '<span>Comments:</span>'
+        commentList.appendChild(commentItem);
+        currentListItem.insertBefore(commentList, event.target);
+    } else {
+        currentListItem.querySelector('.book-list__item__comments').appendChild(commentItem);
+    }
+
+    commentInput.value = '';
 }
 
 pageInit();

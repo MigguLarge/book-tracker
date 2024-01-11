@@ -259,7 +259,18 @@ const confirmEditCommentHandler = (event) => {
     const books = JSON.parse(localStorage.getItem('books'));
     const book = books.find((book) => book.id == bookId);
     const commentIndex = Array.prototype.indexOf.call(commentList.children, commentItem) - 1;
-    book.comments[commentIndex] = value;
+
+    if (value == '') {
+        book.comments.splice(commentIndex, 1);
+        commentItem.remove();
+        if (book.comments.length <= 0) {
+            commentList.remove();
+        }
+    }
+    else {
+        book.comments[commentIndex] = value;
+    }
+
     localStorage.setItem('books', JSON.stringify(books))
 
     commentItemNode.querySelector('span').textContent = value;

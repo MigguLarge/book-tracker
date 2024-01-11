@@ -45,11 +45,11 @@ const createBookListItem = (book) => {
         const bookListItem = readingBookTemplate.content.cloneNode(true);
 
         bookListItem.querySelector('.book-list__item')
-                    .setAttribute('id', `book-${book.id}`)
+            .setAttribute('id', `book-${book.id}`)
         bookListItem.querySelector('.book-list__item__title')
-                    .textContent = book.title;
+            .textContent = book.title;
         bookListItem.querySelector('.book-list__item__start-date')
-                    .textContent = getDate(new Date(book.startDate)) + ' ~';
+            .textContent = getDate(new Date(book.startDate)) + ' ~';
 
         const addCommentForm = bookListItem.querySelector('.book-list__item__add-comment');
 
@@ -74,11 +74,11 @@ const createBookListItem = (book) => {
     } else {
         const bookListItem = finishedBookTemplate.content.cloneNode(true);
         bookListItem.querySelector('.book-list__item')
-                    .setAttribute('id', `book-${book.id}`)
+            .setAttribute('id', `book-${book.id}`)
         bookListItem.querySelector('.book-list__item__title')
-                    .textContent = book.title;
+            .textContent = book.title;
         bookListItem.querySelector('.book-list__item__date')
-                    .textContent = getDate(new Date(book.startDate)) + ' ~ ' + getDate(new Date(book.finishDate));
+            .textContent = getDate(new Date(book.startDate)) + ' ~ ' + getDate(new Date(book.finishDate));
 
         const addCommentForm = bookListItem.querySelector('.book-list__item__add-comment');
 
@@ -108,7 +108,7 @@ const createReadingBookListItem = (title, id, startDate) => {
     const bookListItem = readingBookTemplate.content.cloneNode(true);
 
     bookListItem.querySelector('.book-list__item')
-                .setAttribute('id', `book-${id}`)
+        .setAttribute('id', `book-${id}`)
     bookListItem.querySelector('.book-list__item__title')
         .textContent = title;
     bookListItem.querySelector('.book-list__item__start-date')
@@ -132,7 +132,7 @@ const createReadingBookListItem = (title, id, startDate) => {
 const createFinishedBookListItem = (title, id, startDate, finishDate) => {
     const bookListItem = finishedBookTemplate.content.cloneNode(true);
     bookListItem.querySelector('.book-list__item')
-                .setAttribute('id', `book-${id}`)
+        .setAttribute('id', `book-${id}`)
     bookListItem.querySelector('.book-list__item__title')
         .textContent = title;
     bookListItem.querySelector('.book-list__item__date')
@@ -169,26 +169,42 @@ const startBookHandler = (event) => {
 }
 
 const finishBookHandler = (event) => {
-    const currentListItem = event.target.parentElement;
+    if (window.confirm("Do you want to finish book right now?\nYou can't undo this action")) {
+        const currentListItem = event.target.parentElement.parentElement;
 
-    const id = currentListItem.getAttribute('id').split('-')[1];
-    const books = JSON.parse(localStorage.getItem('books'));
-    const currentBook = books.find((book) => book.id == id);
+        const id = currentListItem.getAttribute('id').split('-')[1];
+        const books = JSON.parse(localStorage.getItem('books'));
+        const currentBook = books.find((book) => book.id == id);
 
-    currentListItem.querySelector('.book-list__item__finish-button').remove();
-    currentListItem.querySelector('.book-list__item__start-date').remove();
+        currentListItem.querySelector('.book-list__item__finish-button').remove();
+        currentListItem.querySelector('.book-list__item__start-date').remove();
 
-    const readDate = document.createElement('span');
-    readDate.classList.add('.book-list__item__date');
-    readDate.textContent = getDate(new Date(currentBook.startDate)) + ' ~ ' + getDate(new Date())
+        const readDate = document.createElement('span');
+        readDate.classList.add('.book-list__item__date');
+        readDate.textContent = getDate(new Date(currentBook.startDate)) + ' ~ ' + getDate(new Date())
 
-    const commentList = currentListItem.querySelector('.book-list__item__comments')
+        const title = currentListItem.querySelector('.book-list__item__title')
 
-    currentListItem.insertBefore(readDate, commentList)
+        currentListItem.insertBefore(readDate, title.nextSibling)
 
-    currentBook.isReading = false;
-    currentBook.finishDate = new Date();
-    localStorage.setItem('books', JSON.stringify(books))
+        currentBook.isReading = false;
+        currentBook.finishDate = new Date();
+        localStorage.setItem('books', JSON.stringify(books))
+    }
+}
+
+const deleteBookHandler = (event) => {
+    if (window.confirm("Do you want to delte this book from list?\nYou can't undo this action")) {
+        const currentListItem = event.target.parentElement.parentElement;
+
+        const id = currentListItem.getAttribute('id').split('-')[1];
+        const books = JSON.parse(localStorage.getItem('books'));
+        const currentBookIndex = books.findIndex((book) => book.id == id);
+        books.splice(currentBookIndex, 1);
+        localStorage.setItem('books', JSON.stringify(books));
+
+        currentListItem.remove();
+    }
 }
 
 const addCommentHandler = (event) => {

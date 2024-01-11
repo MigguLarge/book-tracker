@@ -9,6 +9,10 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
+        <header>
+            <h1 class="header__title">Book Tracker</h1>
+            <p class="header__description">Record start and end date of book with comments</p>
+        </header>
         <div class="container">
             <form class="start-book" onsubmit="startBookHandler(event)">
                 <input class="start-book__title" type="text" placeholder="Title of book..." />
@@ -27,7 +31,10 @@
                     <input type="text" placeholder="Comment..." />
                     <button>Add Comment</button>
                 </form>
-                <button class="book-list__item__finish-button" onclick="finishBookHandler(event)">Finish Book</button>
+                <div class="book-list__item__buttons">
+                    <button class="book-list__item__finish-button" onclick="finishBookHandler(event)">Finish Book</button>
+                    <button class="book-list__item__delete-button" onclick="deleteBookHandler(event)">Delete Book</button>
+                </div>
             </li>
         </template>
 
@@ -39,6 +46,9 @@
                     <input type="text" placeholder="Comment..." />
                     <button>Add Comment</button>
                 </form>
+                <div class="book-list__item__buttons">
+                    <button class="book-list__item__delete-button" onclick="deleteBookHandler(event)">Delete Book</button>
+                </div>
             </li>
         </template>
 

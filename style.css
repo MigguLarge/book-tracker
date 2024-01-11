@@ -32,6 +32,7 @@ button {
     height: max-content;
     border: 0;
     padding: .5em;
+    margin-top: .2em;
     background-color: var(--accent-color);
     color: black;
     transition: .1s;
@@ -46,8 +47,25 @@ button {
     }
 }
 
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+}
+
+.header__title {
+    font-size: 1.5rem;
+}
+
+.header__description {
+    text-align: center;
+}
+
 .container {
     margin: 0 auto;
+    padding: 1em;
     width: 100%;
     max-width: 30em;
 }
@@ -78,9 +96,18 @@ button {
     list-style-type: '- ';
 }
 
+.book-list__item__comments__comment form {
+    display: inline-flex;
+    gap: .5em;
+}
+
 .book-list__item__add-comment {
     display: flex;
     gap: .5em;
+}
+
+.book-list__item__add-comment input {
+    width: 100%;
 }
 
 .book-list__item__finish-button {

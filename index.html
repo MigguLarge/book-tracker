@@ -41,6 +41,22 @@
                 </form>
             </li>
         </template>
+
+        <template id="comment-item-template">
+            <li class="book-list__item__comments__comment">
+                <span></span>
+                <button onclick="editCommentHandler(event)">Edit</button>
+            </li>
+        </template>
+
+        <template id="comment-edit-template">
+            <li class="book-list__item__comments__comment">
+                <form onsubmit="confirmEditCommentHandler(event)">
+                    <input type="text" placeholder="Remove comment if nothing is here" />
+                    <button>Confirm</button>
+                </form>
+            </li>
+        </template>
        <script src="index.js"></script>
     </body>
 </html>

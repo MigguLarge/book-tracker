@@ -13,6 +13,8 @@ const body = document.body;
 
 const readingBookTemplate = document.querySelector('#reading-book-template');
 const finishedBookTemplate = document.querySelector('#finished-book-template');
+const commentItemTemplate = document.querySelector('#comment-item-template');
+const commentEditTemplate = document.querySelector('#comment-edit-template')
 
 const bookList = document.querySelector('.book-list')
 
@@ -57,9 +59,10 @@ const createBookListItem = (book) => {
             commentList.innerHTML = '<span>Comments:</span>';
 
             book.comments.forEach((comment) => {
-                const commentItem = document.createElement('li');
-                commentItem.classList.add('book-list__item__comments__comment')
-                commentItem.textContent = comment;
+                const commentItemNode = commentItemTemplate.content.cloneNode(true);
+                const commentItem = commentItemNode.querySelector('.book-list__item__comments__comment');
+                const commentItemText = commentItem.querySelector('span');
+                commentItemText.textContent = comment;
 
                 commentList.appendChild(commentItem);
             });
@@ -85,9 +88,10 @@ const createBookListItem = (book) => {
             commentList.innerHTML = '<span>Comments:</span>';
 
             book.comments.forEach((comment) => {
-                const commentItem = document.createElement('li');
-                commentItem.classList.add('book-list__item__comments__comment')
-                commentItem.textContent = comment;
+                const commentItemNode = commentItemTemplate.content.cloneNode(true);
+                const commentItem = commentItemNode.querySelector('.book-list__item__comments__comment');
+                const commentItemText = commentItem.querySelector('span');
+                commentItemText.textContent = comment;
 
                 commentList.appendChild(commentItem);
             });
@@ -199,9 +203,10 @@ const addCommentHandler = (event) => {
     currentBook.comments.push(comment);
     localStorage.setItem('books', JSON.stringify(books))
 
-    const commentItem = document.createElement('li');
-    commentItem.classList.add('book-list__item__comments__comment')
-    commentItem.textContent = comment;
+    const commentItemNode = commentItemTemplate.content.cloneNode(true);
+    const commentItem = commentItemNode.querySelector('.book-list__item__comments__comment');
+    const commentItemText = commentItem.querySelector('span');
+    commentItemText.textContent = comment;
 
     if (currentListItem.querySelector('.book-list__item__comments') == null) {
         const commentList = document.createElement('ul');
@@ -214,6 +219,35 @@ const addCommentHandler = (event) => {
     }
 
     commentInput.value = '';
+}
+
+const editCommentHandler = (event) => {
+    const commentEditNode = commentEditTemplate.content.cloneNode(true);
+    const commentEditInput = commentEditNode.querySelector('input');
+    const commentItem = event.target.parentElement;
+    const commentBefore = commentItem.querySelector('span').textContent;
+    commentEditInput.value = commentBefore;
+    commentItem.replaceWith(commentEditNode);
+}
+
+const confirmEditCommentHandler = (event) => {
+    event.preventDefault();
+    const value = event.target.querySelector('input').value;
+
+    const commentItem = event.target.parentElement;
+    const commentItemNode = commentItemTemplate.content.cloneNode(true);
+    const commentList = commentItem.parentElement
+    const bookListItem = commentList.parentElement;
+
+    const bookId = bookListItem.getAttribute('id').split('-')[1];
+    const books = JSON.parse(localStorage.getItem('books'));
+    const book = books.find((book) => book.id == bookId);
+    const commentIndex = Array.prototype.indexOf.call(commentList.children, commentItem) - 1;
+    book.comments[commentIndex] = value;
+    localStorage.setItem('books', JSON.stringify(books))
+
+    commentItemNode.querySelector('span').textContent = value;
+    commentItem.replaceWith(commentItemNode);
 }
 
 pageInit();

@@ -113,3 +113,14 @@ header {
 .book-list__item__finish-button {
     margin-top: .5em;
 }
+
+@media (max-width: 30em) {
+    .content {
+        border-left: none;
+        border-right: none;
+    }
+
+    input, button {
+        font-size: 1rem;
+    }
+}

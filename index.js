@@ -19,7 +19,7 @@ const commentEditTemplate = document.querySelector('#comment-edit-template')
 const bookList = document.querySelector('.book-list')
 
 const createBookId = () => {
-    const id = Math.random().toString(32).slice(2);
+    const id = Math.random().toString(36).slice(2);
     const books = JSON.parse(localStorage.getItem('books'));
 
     if (!books || books.find((element) => element.id == id) == undefined) {

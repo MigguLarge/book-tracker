@@ -14,9 +14,10 @@ const body = document.body;
 const readingBookTemplate = document.querySelector('#reading-book-template');
 const finishedBookTemplate = document.querySelector('#finished-book-template');
 const commentItemTemplate = document.querySelector('#comment-item-template');
-const commentEditTemplate = document.querySelector('#comment-edit-template')
+const commentEditTemplate = document.querySelector('#comment-edit-template');
 
-const bookList = document.querySelector('.book-list')
+const bookList = document.querySelector('.book-list');
+const bookCounter = document.querySelector('.book-counter');
 
 const createBookId = () => {
     const id = Math.random().toString(36).slice(2);
@@ -27,6 +28,11 @@ const createBookId = () => {
     } else {
         return createBookId();
     }
+}
+
+const getFinishedBookCount = () => {
+    const books = JSON.parse(localStorage.getItem('books'));
+    return books.filter((book) => !book.isReading).length;
 }
 
 const getDate = (dateObj) => {
@@ -146,7 +152,8 @@ const pageInit = () => {
         books.forEach((book) => {
             bookList.appendChild(createBookListItem(book));
         });
-    }
+        bookCounter.querySelector('span').textContent = getFinishedBookCount();
+    } else bookCounter.querySelector('span').textContent = '0';
 }
 
 const startBookHandler = (event) => {
@@ -164,7 +171,7 @@ const startBookHandler = (event) => {
         const books = JSON.stringify([startingBook])
         localStorage.setItem('books', books);
     }
-    bookList.insertBefore(createBookListItem(startingBook), bookList.firstChild);
+    bookCounter.after(createBookListItem(startingBook));
     input.value = '';
 }
 
@@ -190,6 +197,7 @@ const finishBookHandler = (event) => {
         currentBook.isReading = false;
         currentBook.finishDate = new Date();
         localStorage.setItem('books', JSON.stringify(books))
+        bookCounter.querySelector('span').textContent = getFinishedBookCount();
     }
 }
 

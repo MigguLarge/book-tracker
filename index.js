@@ -248,7 +248,7 @@ const addCommentHandler = (event) => {
 const editCommentHandler = (event) => {
     const commentEditNode = commentEditTemplate.content.cloneNode(true);
     const commentEditInput = commentEditNode.querySelector('input');
-    const commentItem = event.target.parentElement;
+    const commentItem = event.currentTarget.parentElement;
     const commentBefore = commentItem.querySelector('span').textContent;
     commentEditInput.value = commentBefore;
     commentItem.replaceWith(commentEditNode);

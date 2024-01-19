@@ -32,19 +32,12 @@ button {
     height: max-content;
     border: 0;
     padding: .5em;
-    margin-top: .2em;
     background-color: var(--accent-color);
     color: black;
     transition: .1s;
     font-family: var(--font-family);
     font-weight: 100;
     white-space: nowrap;
-}
-
-@media(hover: hover) and (pointer: fine) {
-    button:hover {
-        background-color: var(--accent-color-dark);
-    }
 }
 
 header {
@@ -96,9 +89,35 @@ header {
     list-style-type: '- ';
 }
 
+.book-list__item__comments__comment {
+    margin-bottom: .5em;
+}
+
 .book-list__item__comments__comment form {
     display: inline-flex;
-    gap: .5em;
+    width: 20em;
+}
+
+.book-list__item__comments__comment form input {
+    width: 100%;
+}
+
+.book-list__item__comments__comment form button {
+    margin-left: .5em;
+}
+
+.edit-button {
+    background-color: white;
+    padding: 0;
+    margin-left: .5em;
+}
+
+.edit-button svg {
+    width: 1em;
+    height: max-content;
+    stroke: black;
+    stroke-width: 20;
+    transition: .1s;
 }
 
 .book-list__item__add-comment {
@@ -110,7 +129,7 @@ header {
     width: 100%;
 }
 
-.book-list__item__finish-button {
+.book-list__item__buttons {
     margin-top: .5em;
 }
 
@@ -122,5 +141,25 @@ header {
 
     input, button {
         font-size: 1rem;
+    }
+}
+
+@media (max-width: 20em) {
+    .book-list__item__comments__comment form {
+        width: 100%;
+    }
+}
+
+@media(hover: hover) and (pointer: fine) {
+    button:hover {
+        background-color: var(--accent-color-dark);
+    }
+
+    .edit-button:hover {
+        background-color: white;
+    }
+
+    .edit-button:hover svg {
+        stroke: var(--accent-color);
     }
 }

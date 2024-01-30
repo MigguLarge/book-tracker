@@ -113,8 +113,11 @@ header {
 }
 
 .edit-button svg {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     width: 1em;
-    height: max-content;
+    height: auto;
     stroke: black;
     stroke-width: 20;
     transition: .1s;

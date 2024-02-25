@@ -82,6 +82,7 @@ header {
 .book-list__item {
     display: flex;
     flex-direction: column;
+	cursor: pointer;
 }
 
 .book-list__item__title {

@@ -25,8 +25,8 @@
         </div>
 
         <template id="reading-book-template">
-            <li class="book-list__item">
-                <span class="book-list__item__title">Book title</span>
+            <li class="book-list__item book-collapse">
+                <span class="book-list__item__title" onclick="bookCollapseHandler(event)">Book title</span>
                 <span class="book-list__item__start-date">2022-01-09 ~</span>
                 <form class="book-list__item__add-comment" onsubmit="addCommentHandler(event)">
                     <input type="text" placeholder="Comment..." />
@@ -40,8 +40,8 @@
         </template>
 
         <template id="finished-book-template">
-            <li class="book-list__item">
-                <span class="book-list__item__title">Book title</span>
+            <li class="book-list__item book-collapse">
+                <span class="book-list__item__title" onclick="bookCollapseHandler(event)">Book title</span>
                 <span class="book-list__item__date">2022-01-09 ~</span>
                 <form class="book-list__item__add-comment" onsubmit="addCommentHandler(event)">
                     <input type="text" placeholder="Comment..." />

@@ -84,6 +84,10 @@ header {
     flex-direction: column;
 }
 
+.book-list__item__title {
+	color: var(--accent-color-dark);
+}
+
 .book-list__item__comments {
     list-style-position: inside;
     list-style-type: '- ';
@@ -134,6 +138,10 @@ header {
 
 .book-list__item__buttons {
     margin-top: .5em;
+}
+
+.book-collapse > :not(.book-list__item__title){
+	display: none;
 }
 
 @media (max-width: 30em) {

@@ -53,7 +53,7 @@ const createBookListItem = (book) => {
         bookListItem.querySelector('.book-list__item')
             .setAttribute('id', `book-${book.id}`)
         bookListItem.querySelector('.book-list__item__title')
-            .textContent = book.title;
+            .textContent = `<${book.title}>`;
         bookListItem.querySelector('.book-list__item__start-date')
             .textContent = getDate(new Date(book.startDate)) + ' ~';
 
@@ -82,7 +82,7 @@ const createBookListItem = (book) => {
         bookListItem.querySelector('.book-list__item')
             .setAttribute('id', `book-${book.id}`)
         bookListItem.querySelector('.book-list__item__title')
-            .textContent = book.title;
+            .textContent = `<${book.title}>`;
         bookListItem.querySelector('.book-list__item__date')
             .textContent = getDate(new Date(book.startDate)) + ' ~ ' + getDate(new Date(book.finishDate));
 
@@ -110,41 +110,41 @@ const createBookListItem = (book) => {
     }
 }
 
-const createReadingBookListItem = (title, id, startDate) => {
-    const bookListItem = readingBookTemplate.content.cloneNode(true);
+// const createReadingBookListItem = (title, id, startDate) => {
+//     const bookListItem = readingBookTemplate.content.cloneNode(true);
+// 
+//     bookListItem.querySelector('.book-list__item')
+//         .setAttribute('id', `book-${id}`)
+//     bookListItem.querySelector('.book-list__item__title')
+//         .textContent = title;
+//     bookListItem.querySelector('.book-list__item__start-date')
+//         .textContent = getDate(startDate) + ' ~';
+// 
+//     const addCommentForm = bookListItem.querySelector('.book-list__item__add-comment');
+// 
+//     const commentList = document.createElement('ul');
+//     commentList.classList.add('book-list__item__comments');
+// 
+//     const commentItem = document.createElement('li');
+//     commentItem.classList.add('book-list__item__comments__comment')
+//     commentItem.textContent = comment;
+// 
+//     commentList.appendChild(commentItem);
+//     bookListItem.insertBefore(commentList, addCommentForm);
+// 
+//     return bookListItem;
+// }
 
-    bookListItem.querySelector('.book-list__item')
-        .setAttribute('id', `book-${id}`)
-    bookListItem.querySelector('.book-list__item__title')
-        .textContent = title;
-    bookListItem.querySelector('.book-list__item__start-date')
-        .textContent = getDate(startDate) + ' ~';
-
-    const addCommentForm = bookListItem.querySelector('.book-list__item__add-comment');
-
-    const commentList = document.createElement('ul');
-    commentList.classList.add('book-list__item__comments');
-
-    const commentItem = document.createElement('li');
-    commentItem.classList.add('book-list__item__comments__comment')
-    commentItem.textContent = comment;
-
-    commentList.appendChild(commentItem);
-    bookListItem.insertBefore(commentList, addCommentForm);
-
-    return bookListItem;
-}
-
-const createFinishedBookListItem = (title, id, startDate, finishDate) => {
-    const bookListItem = finishedBookTemplate.content.cloneNode(true);
-    bookListItem.querySelector('.book-list__item')
-        .setAttribute('id', `book-${id}`)
-    bookListItem.querySelector('.book-list__item__title')
-        .textContent = title;
-    bookListItem.querySelector('.book-list__item__date')
-        .textContent = getDate(startDate) + ' ~ ' + getDate(finishDate);
-    return bookListItem;
-}
+// const createFinishedBookListItem = (title, id, startDate, finishDate) => {
+//     const bookListItem = finishedBookTemplate.content.cloneNode(true);
+//     bookListItem.querySelector('.book-list__item')
+//         .setAttribute('id', `book-${id}`)
+//     bookListItem.querySelector('.book-list__item__title')
+//         .textContent = title;
+//     bookListItem.querySelector('.book-list__item__date')
+//         .textContent = getDate(startDate) + ' ~ ' + getDate(finishDate);
+//     return bookListItem;
+// }
 
 const pageInit = () => {
     if (localStorage.getItem('books') != null) {
@@ -283,6 +283,14 @@ const confirmEditCommentHandler = (event) => {
 
     commentItemNode.querySelector('span').textContent = value;
     commentItem.replaceWith(commentItemNode);
+}
+
+const bookCollapseHandler = (event) => {
+	const target = event.target.parentElement;
+
+	if (target.classList.contains("book-collapse"))
+		target.classList.remove("book-collapse")
+	else target.classList.add("book-collapse")
 }
 
 pageInit();
